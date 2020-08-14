@@ -23,7 +23,7 @@ def json():
 
         response_body = {
             "message": "JSON received!",
-            "sender": req.get("name")
+            "sender": req.get("message")
         }
 
         res = make_response(jsonify(response_body), 200)
