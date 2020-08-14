@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import request
+from flask import request, jsonify, make_response
 app = Flask(__name__)
 
 @app.route('/')
@@ -26,8 +26,8 @@ def json():
             "sender": req.get("name")
         }
 
-        print("Done")
-        return 'res'
+        res = make_response(jsonify(response_body), 200)
+        return res
 
     else:
         print("Not Done!")
