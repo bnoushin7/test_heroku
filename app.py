@@ -26,10 +26,9 @@ def json():
             "sender": req.get("name")
         }
 
-        res = make_response(jsonify(response_body), 200)
-
-        return res
+        print("Done")
+        return 'res'
 
     else:
-
+        print("Not Done!")
         return make_response(jsonify({"message": "Request body must be JSON"}), 400)        
