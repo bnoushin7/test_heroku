@@ -16,10 +16,20 @@ def about():
 
 @app.route('/json', methods=["POST"])
 def json():
-    req = request.get_json()
 
-    print(req)
+    if request.is_json:
 
-    return "Thanks!", 200
+        req = request.get_json()
 
+        response_body = {
+            "message": "JSON received!",
+            "sender": req.get("name")
+        }
 
+        res = make_response(jsonify(response_body), 200)
+
+        return res
+
+    else:
+
+        return make_response(jsonify({"message": "Request body must be JSON"}), 400)        
