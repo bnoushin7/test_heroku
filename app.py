@@ -31,4 +31,4 @@ def json():
 
     else:
         print("Not Done!")
-        return make_response(jsonify({"message": "Request body must be JSON"}), 400)        
+        return '"message": "Request body must be JSON"}), 400'        
