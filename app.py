@@ -1,7 +1,26 @@
 from flask import Flask
 import json
 from flask import request, jsonify, make_response
+from intake import open_catalog
 app = Flask(__name__)
+
+def my_recursive(catalog):
+    for i in list(catalog):
+        queue.append(i)
+   
+        while queue:
+            level_size = len(queue)
+            for _ in range(level_size):
+                current = queue.pop()
+                result.append(current)
+                subcat=open_catalog(catalog_name+current.lower()+'.yaml')
+
+
+                for j in list(subcat):
+                    if j not in ('netcdf','example'): 
+                        queue.append(j)
+    return result
+
 
 @app.route('/')
 def hello_world():
@@ -13,6 +32,30 @@ def about():
     return 'This is about Noushin'
 
 
+@app.route('/all_data')
+def all_data():
+
+    catalog_name='https://raw.githubusercontent.com/kpegion/COLA-DATASETS-CATALOG/gh-pages/intake-catalogs/'
+    cat = open_catalog(catalog_name+'master.yaml')
+    result = []
+    queue = []
+    def my_recursive(catalog):
+        for i in list(catalog):
+            queue.append(i)
+   
+            while queue:
+                level_size = len(queue)
+                for _ in range(level_size):
+                    current = queue.pop()
+                    result.append(current)
+                    subcat=open_catalog(catalog_name+current.lower()+'.yaml')
+
+
+                    for j in list(subcat):
+                        if j not in ('netcdf','example'): 
+                            queue.append(j)
+        return result
+    return my_recursive(cat)
 
 @app.route('/json', methods=["POST"])
 def json():
