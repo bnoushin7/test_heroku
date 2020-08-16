@@ -11,6 +11,7 @@ def hello_world():
 @app.route("/tag_based", methods=["POST"])
 def datasets_per_tag():
 	res = ""
+	
 	if not request.json:
 		return make_response(jsonify({
             "code": 400,
@@ -18,10 +19,9 @@ def datasets_per_tag():
 		}), 400)
 	try:
 		body = request.json
-		tag = body['tag']
-		df = pandas.read_excel('tags-datasets.xlsx')
-		my_list = df[lambda x: ~pandas.isnull(x[tag])][tag]
-		print("33")
+		tag = body['tag']		
+		df = pandas.read_excel('tags-datasets.xlsx')		
+		my_list = df[lambda x: ~pandas.isnull(x[tag])][tag]		
 		pattern = re.compile(r'\s+')
 		s = my_list.to_string(index=False).replace('\n',',')
 		#return(print(pattern.sub(' ', s)))
